@@ -18,7 +18,7 @@ koa 搭建服务模板
 
 可自定义校验规则进行校验，核心是对 validator 的二次封装
 
-具体使用方式可参考以下代码
+具体使用方式可参考以下代码,也可以自定义校验函数
 
 ```
 class RegisterValidate extends LinValidator {
@@ -39,6 +39,15 @@ class RegisterValidate extends LinValidator {
       new Rule("isLength", "昵称长度不符合", { min: 2, max: 12 }),
     ];
   }
+
+  validatePassword(vals) {
+    const psw1 = vals.body.password1
+    const psw2 = vals.body.password2
+    if(psw1 !== psw2) {
+      throw new Error('两个密码必须相同')
+    }
+  }
+
 }
 ```
 
@@ -54,6 +63,8 @@ class RegisterValidate extends LinValidator {
   };
   ctx.body = "register success";
 ```
+
+validate 执行时，会遍历 RegisterValidate 上的 validate 开头的函数，以及数组属性进行校验，并且会沿着原型链去找对应的校验规则和方法，也就是说 validate 类之间可以相互继承
 
 ### 4.通用的用户权限
 
