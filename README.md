@@ -2,19 +2,30 @@
 
 koa 搭建服务模板
 
+### 项目启动&接口测试
+
+```
+npm install
+npm run serve
+```
+
+项目启动之后，可以通过 post 访问接口 http://localohost:9000/v1/user/register 进行测试
+
+### 项目介绍
+
 本项目适合，node 新手或者想快速搭建一套 node 服务。本项目包含以下 5 个优点
 
-### 1.路由自动加载
+#### 1.路由自动加载
 
 路由通过 koa-router 实现，项目使用 requireDirectory 插件，自动加载 app/api 下的文件，并自动注册
 
-### 2.全局异常处理
+#### 2.全局异常处理
 
 根据 koa 的洋葱模型，自定义异常处理中间件。
 
 项目的异常分为已知异常（主动抛出）未知异常（程序抛出）两类, 通过对 Error 类的二次处理，进行全局的异常抛出
 
-### 3.参数校验
+#### 3.参数校验
 
 可自定义校验规则进行校验，核心是对 validator 的二次封装
 
@@ -66,6 +77,6 @@ class RegisterValidate extends LinValidator {
 
 validate 执行时，会遍历 RegisterValidate 上的 validate 开头的函数，以及数组属性进行校验，并且会沿着原型链去找对应的校验规则和方法，也就是说 validate 类之间可以相互继承
 
-### 4.通用的用户权限
+#### 4.通用的用户权限
 
-### 5.较好的代码风格
+#### 5.数据库管理
