@@ -9,7 +9,7 @@ const catchError = async (ctx, next) => {
 
     const isHttpException = error instanceof HttpException;
     // 如果是开发环境，且为未知错误，则直接抛出异常
-    if (global.config.environment === "dev" && !isHttpException) {
+    if (global.config.environment === "development" && !isHttpException) {
       throw error;
     }
 

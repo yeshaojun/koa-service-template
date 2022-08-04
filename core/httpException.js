@@ -17,6 +17,16 @@ class ParameterException extends HttpException {
   }
 }
 
+// 成功[有很多接口，无需返回数据，只需要返回成功提示，也统一放到这里]
+class Success extends HttpException {
+  constructor(msg, errorCode) {
+    super();
+    this.code = 200;
+    this.msg = msg || "ok";
+    this.errorCode = errorCode || 0;
+  }
+}
+
 // 404
 class NotFound extends HttpException {
   constructor(msg, errorCode) {
@@ -52,4 +62,5 @@ module.exports = {
   NotFound,
   Forbbiden,
   AuthFailed,
+  Success,
 };
