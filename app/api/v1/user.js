@@ -1,11 +1,18 @@
 const Router = require("koa-router");
-const router = new Router();
+
+const { generateToken } = require("../../../core/utils");
+const router = new Router({
+  prefix: "/v1/user",
+});
 // 校验规则
-const { RegisterValidate } = require("../../validators/validator.js");
+const {
+  RegisterValidate,
+  LoginValidate,
+} = require("../../validators/validator.js");
 const { Success } = require("../../../core/httpException");
 const User = require("../../models/user.js");
 // 注册 新增数据
-router.post("/v1/user/register", async (ctx) => {
+router.post("/register", async (ctx) => {
   const v = await new RegisterValidate().validate(ctx);
   // 密码需要加密，放在模型中统一处理
   const user = {
@@ -15,6 +22,17 @@ router.post("/v1/user/register", async (ctx) => {
   };
   await User.create(user);
   throw new Success();
+});
+
+router.post("/login", async (ctx) => {
+  const v = await new LoginValidate().validate(ctx);
+  const user = await User.verifyEmailPassword(
+    v.get("body.email"),
+    v.get("body.password")
+  );
+  ctx.body = {
+    token: generateToken(user.id, "34"),
+  };
 });
 
 module.exports = router;

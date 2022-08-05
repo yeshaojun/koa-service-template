@@ -20,6 +20,23 @@ class RegisterValidate extends LinValidator {
   }
 }
 
+class LoginValidate extends LinValidator {
+  constructor() {
+    super();
+    this.email = [new Rule("isEmail", "邮箱不符合规范")];
+    this.password = [
+      // 密码 用户制定范围
+      new Rule("isLength", "密码至少6位，最多为32位", { min: 6, max: 32 }),
+      new Rule(
+        "matches",
+        "密码不符合规范",
+        "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]"
+      ),
+    ];
+  }
+}
+
 module.exports = {
   RegisterValidate,
+  LoginValidate,
 };
