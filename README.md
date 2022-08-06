@@ -79,4 +79,31 @@ validate 执行时，会遍历 RegisterValidate 上的 validate 开头的函数�
 
 #### 4.通用的用户权限
 
-#### 5.数据库管理
+使用自定义中间件对用户权限以及token校验，只需要在需要校验的路由上，使用Auth中间件即可
+
+```
+router.get('/info',new Auth().check,  async (ctx) => {
+  const user = await  User.findOne({
+    attributes: {
+      exclude: ['password']
+    },
+    where: {
+      id: ctx.auth.uid
+    }
+  })
+  ctx.body =  user
+})
+```
+
+如果需要对接口进行权限校验，可在new Auth()中传入权限等级，中间件会判断，用户信息中的level是否大于传入的等级
+
+```
+    if(decode.scope < this.level) {
+      errMsg = '权限不足'
+      throw new Forbbiden(errMsg)
+    }
+```
+
+#### 5.支持mysql数据库，以及mongodb
+
+目前已经支持mysql
