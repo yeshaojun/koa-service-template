@@ -1,6 +1,21 @@
 # koa-service-template
 
-koa 搭建服务模板
+大部分前端对于node的应用都在工程化上，对于如何搭建一个node服务提供接口可能并不熟悉。再加上koa灵活性很高，需要搭配很多中间件一起使用，对于新手可能不是特别友好。
+
+因此搭建一个koa服务模板，供有需要的人使用
+
+### 使用方式
+
+1. 克隆项目到本地，执行npm install安装依赖
+2. 在config中配置数据库信息
+3. npm run serve 启动服务
+
+项目中无任何业务逻辑，但是提供了三个用户相关的接口
+
+注册用户 POST: 'localhost:9000/v1/user/register'
+用户登录返回token POST: localhost:9000/v1/user/login
+在header中携带toekn获取用户信息 GET: localhost:9000/v1/user/info
+
 
 ### 项目启动&接口测试
 
