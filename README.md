@@ -13,18 +13,11 @@
 项目中无任何业务逻辑，但是提供了三个用户相关的接口
 
 注册用户 POST: 'localhost:9000/v1/user/register'
+
 用户登录返回token POST: localhost:9000/v1/user/login
+
 在header中携带toekn获取用户信息 GET: localhost:9000/v1/user/info
 
-
-### 项目启动&接口测试
-
-```
-npm install
-npm run serve
-```
-
-项目启动之后，可以通过 post 访问接口 http://localohost:9000/v1/user/register 进行测试
 
 ### 项目介绍
 
