@@ -2,10 +2,10 @@ module.exports = {
   environment: "development",
   database: {
     dbName: "koa-im",
-    host: "119.45.209.87",
+    host: "localhost",
     port: 3306,
     user: "root",
-    password: "qq5056",
+    password: "123456",
   },
   security: {
     secretKey: "secret",
