@@ -1,6 +1,7 @@
 const Router = require("koa-router");
 
 const { generateToken } = require("../../../core/utils");
+const { Auth } = require("../../../middlewares/auth")
 const router = new Router({
   prefix: "/v1/user",
 });
@@ -25,14 +26,27 @@ router.post("/register", async (ctx) => {
 });
 
 router.post("/login", async (ctx) => {
+  console.log('V', ctx)
   const v = await new LoginValidate().validate(ctx);
   const user = await User.verifyEmailPassword(
     v.get("body.email"),
     v.get("body.password")
   );
   ctx.body = {
-    token: generateToken(user.id, "34"),
+    token: generateToken(user.id, user.level),
   };
 });
+
+router.get('/info',new Auth().check,  async (ctx) => {
+  const user = await  User.findOne({
+    attributes: {
+      exclude: ['password']
+    },
+    where: {
+      id: ctx.auth.uid
+    }
+  })
+  ctx.body =  user
+})
 
 module.exports = router;

@@ -16,7 +16,7 @@ class User extends Model {
     }
     const correct = await bcrypt.compareSync(plainPassword, user.password);
     if (!correct) {
-      throw AuthFailed("密码不正确");
+      throw new AuthFailed("密码不正确");
     }
     return user;
   }
@@ -43,6 +43,10 @@ User.init(
         this.setDataValue("password", psw);
       },
     },
+    level: {
+      type: Sequelize.INTEGER,
+      defaultValue : 10 // 默认权限为10
+    }
   },
   {
     sequelize,
