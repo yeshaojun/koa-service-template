@@ -2,6 +2,8 @@
 const requireDirectory = require("require-directory");
 const Router = require("koa-router");
 
+// 连接数据库
+require("./db.js");
 // 使用静态方法，不需要实例化
 class InitManager {
   static initCore(app) {

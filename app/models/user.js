@@ -1,58 +1,48 @@
 const bcrypt = require("bcrypt");
-const { Sequelize, Model } = require("sequelize");
+const mongoose = require("mongoose");
 
 const { ParameterException, AuthFailed } = require("../../core/httpException");
-const { sequelize } = require("../../core/db");
 
-class User extends Model {
-  static async verifyEmailPassword(email, plainPassword) {
-    const user = await User.findOne({
-      where: {
-        email,
-      },
-    });
-    if (!user) {
-      throw new ParameterException("用户不存在");
-    }
-    const correct = await bcrypt.compareSync(plainPassword, user.password);
-    if (!correct) {
-      throw new AuthFailed("密码不正确");
-    }
-    return user;
-  }
-}
-
-User.init(
+const UserScheme = new mongoose.Schema(
   {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    nickname: Sequelize.STRING,
-    email: Sequelize.STRING,
+    nickname: String,
+    email: String,
     password: {
-      type: Sequelize.STRING,
-      set(val) {
-        // 设计模式 观察者模式
-        // ES6 Reflect
-        // const v = await new RegisterValidate().validate(ctx)
+      type: String,
+      set: (val) => {
         const salt = bcrypt.genSaltSync(10);
         // 10表示花费的成本
-        const psw = bcrypt.hashSync(val, salt);
-        this.setDataValue("password", psw);
+        return bcrypt.hashSync(val, salt);
       },
     },
     level: {
-      type: Sequelize.INTEGER,
-      defaultValue : 10 // 默认权限为10
-    }
+      type: Number,
+      default: 10,
+    },
   },
   {
-    sequelize,
-    modelName: "User",
-    tableName: "user",
+    timestamps: {
+      createdAt: "created_at",
+      updatedAt: "updated_at",
+      deletedAt: "deleted_at",
+    },
   }
 );
+
+const User = new mongoose.model("user", UserScheme);
+
+User.verifyEmailPassword = async (email, plainPassword) => {
+  const user = await User.findOne({
+    email,
+  });
+  if (!user) {
+    throw new ParameterException("用户不存在");
+  }
+  const correct = await bcrypt.compareSync(plainPassword, user.password);
+  if (!correct) {
+    throw new AuthFailed("密码不正确");
+  }
+  return user;
+};
 
 module.exports = User;

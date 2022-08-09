@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const config = require("../config/index")
+const config = require("../config/index");
 /***
  *
  */
@@ -35,7 +35,6 @@ const findMembers = function (instance, { prefix, specifiedType, filter }) {
 const generateToken = function (uid, scope) {
   const secretKey = config.security.secretKey;
   const expiresIn = config.security.expiresIn;
-  console.log('secretKey', secretKey, expiresIn)
   const token = jwt.sign(
     {
       uid,
