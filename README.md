@@ -1,23 +1,22 @@
 # koa-service-template
 
-大部分前端对于node的应用都在工程化上，对于如何搭建一个node服务提供接口可能并不熟悉。再加上koa灵活性很高，需要搭配很多中间件一起使用，对于新手可能不是特别友好。
+大部分前端对于 node 的应用都在工程化上，对于如何搭建一个 node 服务提供接口可能并不熟悉。再加上 koa 灵活性很高，需要搭配很多中间件一起使用，对于新手可能不是特别友好。
 
-因此搭建一个koa服务模板，供有需要的人使用
+因此搭建一个 koa 服务模板，供有需要的人使用
 
 ### 使用方式
 
-1. 克隆项目到本地，执行npm install安装依赖
-2. 在config中配置数据库信息
+1. 克隆项目到本地，执行 npm install 安装依赖
+2. 在 config 中配置数据库信息
 3. npm run serve 启动服务
 
 项目中无任何业务逻辑，但是提供了三个用户相关的接口
 
 注册用户 POST: 'localhost:9000/v1/user/register'
 
-用户登录返回token POST: localhost:9000/v1/user/login
+用户登录返回 token POST: localhost:9000/v1/user/login
 
-在header中携带toekn获取用户信息 GET: localhost:9000/v1/user/info
-
+在 header 中携带 toekn 获取用户信息 GET: localhost:9000/v1/user/info
 
 ### 项目介绍
 
@@ -87,7 +86,7 @@ validate 执行时，会遍历 RegisterValidate 上的 validate 开头的函数�
 
 #### 4.通用的用户权限
 
-使用自定义中间件对用户权限以及token校验，只需要在需要校验的路由上，使用Auth中间件即可
+使用自定义中间件对用户权限以及 token 校验，只需要在需要校验的路由上，使用 Auth 中间件即可
 
 ```
 router.get('/info',new Auth().check,  async (ctx) => {
@@ -103,7 +102,7 @@ router.get('/info',new Auth().check,  async (ctx) => {
 })
 ```
 
-如果需要对接口进行权限校验，可在new Auth()中传入权限等级，中间件会判断，用户信息中的level是否大于传入的等级
+如果需要对接口进行权限校验，可在 new Auth()中传入权限等级，中间件会判断，用户信息中的 level 是否大于传入的等级
 
 ```
     if(decode.scope < this.level) {
@@ -112,6 +111,10 @@ router.get('/info',new Auth().check,  async (ctx) => {
     }
 ```
 
-#### 5.支持mysql数据库，以及mongodb
+#### 5.支持 mysql 数据库，以及 mongodb
 
-目前已经支持mysql
+项目支持 mysql 以及 mongodb 连接，可按需下载
+
+main 分支对应 mysql
+
+mongodb 分支对应 mongodb
