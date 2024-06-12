@@ -118,3 +118,5 @@ router.get('/info',new Auth().check,  async (ctx) => {
 main 分支对应 mysql
 
 mongodb 分支对应 mongodb
+
+### 6.支持 swagger 文档

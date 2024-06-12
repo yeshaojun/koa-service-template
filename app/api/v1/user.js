@@ -13,6 +13,15 @@ const {
 const { Success } = require("../../../core/httpException");
 const User = require("../../models/user.js");
 // 注册 新增数据
+/**
+ * @swagger
+ * /register:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: Register a new user
+ *     description: Register a new user with email, nickname, and password
+ */
 router.post("/register", async (ctx) => {
   const v = await new RegisterValidate().validate(ctx);
   // 密码需要加密，放在模型中统一处理

@@ -1,6 +1,11 @@
 // 文件自动导入插件
 const requireDirectory = require("require-directory");
 const Router = require("koa-router");
+const {
+  swaggerUi,
+  swaggerSpec,
+  router: swaggerRouter,
+} = require("../swagger/swagger");
 
 // 连接数据库
 require("./db.js");
@@ -10,6 +15,7 @@ class InitManager {
     InitManager.app = app;
     InitManager.initRouters();
     InitManager.loadConfig();
+    InitManager.initSwagger();
   }
   // 动态加载路由
   static initRouters() {
@@ -36,6 +42,20 @@ class InitManager {
     const configPath = path || process.cwd() + "/config/index.js";
     const config = require(configPath);
     global.config = config;
+  }
+  // 加载接口文档
+  static initSwagger() {
+    InitManager.app.use(swaggerUi.serve);
+    InitManager.app.use(
+      swaggerUi.setup(swaggerSpec, {
+        swaggerOptions: {
+          url: "/swagger.json", // Point to the Swagger JSON endpoint
+        },
+      })
+    );
+    InitManager.app
+      .use(swaggerRouter.routes())
+      .use(swaggerRouter.allowedMethods());
   }
 }
 

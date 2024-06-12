@@ -29,6 +29,8 @@
     "mysql2": "^2.3.3",
     "require-directory": "^2.1.1",
     "sequelize": "^6.21.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-koa": "^0.0.1",
     "validator": "^13.7.0"
   },
   "devDependencies": {
