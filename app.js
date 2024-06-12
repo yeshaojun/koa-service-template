@@ -17,4 +17,7 @@ app.use(koaStatic(path.join(__dirname, "./static")));
 // 初始化路由
 InitManager.initCore(app);
 
-app.listen(9000);
+app.listen(9000, () => {
+  console.log(`Server is running on http://localhost:9000`);
+  console.log(`Swagger docs are available at http://localhost:9000/api-docs`);
+});
